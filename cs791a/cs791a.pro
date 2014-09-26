@@ -35,12 +35,12 @@ CONFIG += c++11
 QMAKE_CXX = clang++
 QMAKE_CC = clang
 
-unix {
+unix:!macx {
     LIBS += -lGLEW
 }
 
-mac {
-    LIBS += -framework OpenGL
+macx {
+    LIBS += -framework OpenGL -L/usr/local/lib
 }
 
 LIBS += -lboost_program_options -lboost_system -lboost_filesystem -lgdal

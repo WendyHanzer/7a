@@ -45,6 +45,9 @@ void Terrain::render()
 
     glUseProgram(program);
 
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
     glUniformMatrix4fv(loc_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 
     //glEnableVertexAttribArray(loc_heightScalar);
@@ -55,7 +58,6 @@ void Terrain::render()
     if(program == engine->graphics->getShaderProgram("data"))
         glEnableVertexAttribArray(loc_dataPoint);
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
     glVertexAttribPointer( loc_position,
                            3,
@@ -92,6 +94,8 @@ void Terrain::render()
         glDisableVertexAttribArray(loc_dataPoint);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    glBindVertexArray(0);
 
     glUseProgram(0);
 }
@@ -193,10 +197,12 @@ void Terrain::initGL(bool genBuffer)
 {
     Vertex *geo = geometry.data();
 
-    if(genBuffer)
+    if(genBuffer) {
+        glGenVertexArrays(1, &vao);
         glGenBuffers(1, &vbo);
+    }
 
-
+    glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(*geo) * geometry.size(), geo, GL_STATIC_DRAW);
 

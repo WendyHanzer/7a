@@ -151,7 +151,10 @@ void Shape::initGL()
     program = engine->graphics->getShaderProgram("shape");
     Vertex *geo = points.data();
 
+    glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
+
+    glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(*geo) * points.size(), geo, GL_STATIC_DRAW);
 
@@ -174,6 +177,9 @@ void Shape::render()
 
     glUseProgram(program);
 
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
     glUniformMatrix4fv(loc_mvp, 1, GL_FALSE, glm::value_ptr(mvp));
 
     //glEnableVertexAttribArray(loc_heightScalar);
@@ -181,8 +187,6 @@ void Shape::render()
     glUniform4fv(loc_color, 1, color);
 
     glEnableVertexAttribArray(loc_position);
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
     glVertexAttribPointer( loc_position,
                            3,

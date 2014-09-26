@@ -45,7 +45,7 @@ private:
     QString map_file;
     GLuint program;
 
-    GLuint vbo;
+    GLuint vbo, vao;
     GLint loc_mvp, loc_position, loc_texture, loc_heightScalar;
     GLint loc_dataPoint;
 

@@ -25,7 +25,7 @@ private:
     Engine *engine;
 
     GLuint program;
-    GLuint vbo;
+    GLuint vbo, vao;
     GLint loc_mvp, loc_position, loc_color, loc_heightScalar;
 
     GLfloat color[4];
